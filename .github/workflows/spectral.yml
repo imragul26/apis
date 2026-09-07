@@ -1,0 +1,20 @@
+name: Spectral Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  spectral-lint:
+    name: Run Spectral Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Spectral
+        uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: "apis/**/*.yaml"
