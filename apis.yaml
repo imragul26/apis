@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: Sample User Management API
+  description: A minimal OpenAPI 3.1 sample demonstrating modern JSON schema features.
+  version: 1.0.0
+servers:
+  - url: https://example.com
+    description: Production server
+paths:
+  /users:
+    get:
+      summary: Retrieve a list of users
+      description: Fetches a list of active users.
+      responses:
+        '200':
+          description: A successful response matching the user schema array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found.
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          examples:
+            - "Jane Doe"
+        email:
+          type: string
+          format: email
+          examples:
+            - "jane.doe@example.com"
+        bio:
+          # OpenAPI 3.1 native multi-type array (Replaces the deprecated 'nullable: true')
+          type: [string, "null"] 
+          description: An optional biography description.
+          examples:
+            - "Software Engineer based in New York."
+            - null
