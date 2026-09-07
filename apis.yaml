@@ -26,7 +26,6 @@ paths:
       parameters:
         - name: userId
           in: path
-          required: true
           description: The unique identifier of the user.
           schema:
             type: string
