@@ -1,9 +1,11 @@
-name: Spectral Lint
+name: OpenAPI Spectral Check
 
 on:
   pull_request:
-    branches:
-      - main
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
   spectral-lint:
@@ -12,9 +14,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run Spectral
-        uses: stoplightio/spectral-action@latest
+        uses: stoplightio/spectral-action@v0.8.13
         with:
-          file_glob: "apis/**/*.yaml"
+          file_glob: "src/main/resources/openapi/**/*.{yaml,yml,json}"
+          spectral_ruleset: ".spectral.yaml"
